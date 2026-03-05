@@ -1,0 +1,50 @@
+base_url: "https://your-device.example.com/login"
+
+browser:
+  headless: false
+  slow_mo: 100
+
+credentials:
+  username: "admin"
+  password: "your-password"
+
+login:
+  username_selector: "#username"
+  password_selector: "#password"
+  submit_selector: "button[type='submit']"
+  success_selector: "#dashboard"
+
+plugins:
+  - "plugins/custom_actions.py"
+
+flows:
+  - name: "configure-sslvpn"
+    url: "/admin/sslvpn"
+    actions:
+      - type: wait
+        selector: "#sslvpn-form"
+
+      - type: fill
+        selector: "#profile_name"
+        value: "corp-vpn"
+
+      - type: fill
+        selector: "#server_desc"
+        value: "Managed by automation"
+
+      - type: set_checkbox
+        selector: "#enable_sslvpn"
+        value: true
+
+      - type: check
+        selector: "#allow_split_tunnel"
+
+      - type: select
+        selector: "#auth_mode"
+        value: "ldap"
+
+      - type: click
+        selector: "#save-button"
+
+      - type: wait
+        selector: ".toast-success"
